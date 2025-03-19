@@ -52,13 +52,13 @@ body {
   .wide-image {
     width: 788px;
     height: 444px;
-    object-fit: cover; /* Ensures the image fills the container without distortion */
+    object-fit: cover; 
   }
   
   .thin-image {
     width: 443px;
     height: 443px;
-    object-fit: cover; /* Ensures the image fills the container without distortion */
+    object-fit: cover; 
   }
 /* Button Container */
 .button-5 {
