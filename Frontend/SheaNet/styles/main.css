@@ -1,0 +1,179 @@
+
+body {
+    font-family: 'Kaisei Opti', serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  .hero {
+    background-color: #f8f9fa;
+    padding: 100px 20px;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .hero .description {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+  }
+  h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .retail {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+  }
+  
+  .hero .search-bar {
+    margin-top: 40px;
+  }
+  
+  .empowering-women-image {
+    width: 436px;
+    height: 245px;
+  }
+  
+  .wide-image {
+    width: 788px;
+    height: 444px;
+    object-fit: cover; /* Ensures the image fills the container without distortion */
+  }
+  
+  .thin-image {
+    width: 443px;
+    height: 443px;
+    object-fit: cover; /* Ensures the image fills the container without distortion */
+  }
+/* Button Container */
+.button-5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0px;
+  width: fit-content; 
+  background-color: rgba(162, 132, 94, 1); 
+  border-radius: 100px; 
+  margin: 0 auto; 
+}
+
+/* State Layer */
+.state-layer-6 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px; /* Padding for the button */
+  width: 100%; /* Full width of the container */
+}
+
+/* Text Styling */
+.text-7 {
+  margin: 0; /* Remove default margin */
+  font-size: 16px; /* Adjust font size as needed */
+  font-weight: 500; /* Adjust font weight as needed */
+}
+
+.text-white {
+  color: white; /* Ensure text is white */
+}
+/* Button Container */
+.button-5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0px;
+  width: fit-content; /* Adjust width to fit content */
+  background-color: rgba(162, 132, 94, 1); /* Keep the background color */
+  border-radius: 100px; /* Oval shape */
+  margin: 0 auto; /* Center the button horizontally */
+}
+
+/* State Layer */
+.state-layer-6 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px; /* Padding for the button */
+  width: 100%; /* Full width of the container */
+}
+
+/* Text Styling */
+.text-7 {
+  margin: 0; /* Remove default margin */
+  font-size: 16px; /* Adjust font size as needed */
+  font-weight: 500; /* Adjust font weight as needed */
+}
+
+.text-white {
+  color: white; /* Ensure text is white */
+}
+.card {
+  border: none !important; /* Removes the card border */
+  box-shadow: none !important; 
+}
+.card-title{
+	color: #c0aa83;
+	font-family: 'Kanit',sans-serif;
+	font-size: 25px;
+	font-weight: 900;
+}
+
+.card-text{
+	font-family: 'Kanit',sans-serif;
+	font-size: 13px;
+}
+
+.price-tag{
+	color: #c0aa83;
+	font-family: 'Kanit',sans-serif;
+	font-size: 25px;
+	font-weight: 900;
+}
+
+.button-text{
+	font-family: 'Kanit',sans-serif;
+	font-size: 14px;
+	font-weight: 900;
+  background-color: #c0aa83;
+}
+
+.button-text:hover {
+  background-color: #a68c6c !important; 
+  border-color: #a68c6c 
+}
+
+.product-image{
+	width:  200px;
+	height: 200px;
+}
+
+.Bulk {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+}

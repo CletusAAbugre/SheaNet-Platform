@@ -1,0 +1,28 @@
+/* Seller Profile */
+.seller-profile {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .seller-info {
+    text-align: center;
+    width: 30%;
+  }
+  
+  .seller-info img {
+    width: 100px;
+    border-radius: 50%;
+  }
+  
+  .seller-products {
+    width: 70%;
+  }
+  
+  .seller-products .product-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+  }

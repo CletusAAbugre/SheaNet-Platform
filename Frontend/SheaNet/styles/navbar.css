@@ -1,0 +1,22 @@
+/* Navigation Bar */
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+  }
+  
+  .navbar-brand img {
+    height: 50px;
+  }
+  
+  .navbar-nav {
+    margin-left: auto;
+  }
+  
+  .nav-link {
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .nav-link:hover {
+    color: #c0aa83;
+  }
