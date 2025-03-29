@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="shortcut Icon" type="image/png" href="images/logo.png">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/navbar.css">
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="images/logo.png" alt="SheaNet Logo" width="100">
+      </a>
+      <div class="cart-icon ms-3">
+        <a href="cart.html" class="btn btn-outline-success position-relative">
+          <i class="fa fa-shopping-cart"></i>
+          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="products.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="investors.html">Investors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-7">
+        <h1 class="mb-4">Checkout</h1>
+        
+        <div class="card mb-4">
+          <div class="card-body">
+            <h2 class="card-title">Shipping Information</h2>
+            <form id="shipping-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" required>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="zip" class="form-label">ZIP Code</label>
+                  <input type="text" class="form-control" id="zip" required>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Payment Information</h2>
+            <div id="card-element" class="mb-3"></div>
+            <div id="card-errors" role="alert" class="text-danger mb-3"></div>
+            <button id="submit-payment" class="btn btn-success w-100">
+              <span id="button-text">Pay Now</span>
+              <span id="spinner" class="spinner-border spinner-border-sm d-none"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Order Summary</h2>
+            <div id="order-items">
+              <!-- Order items will be loaded here -->
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-2">
+              <h5>Subtotal:</h5>
+              <h5 id="order-subtotal">$0.00</h5>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <h5>Shipping:</h5>
+              <h5>$5.00</h5>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+              <h4>Total:</h4>
+              <h4 id="order-total">$5.00</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
