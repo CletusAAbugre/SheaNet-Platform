@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>SheaNet - Home</title>
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts - Kaisei Opti -->
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
   <!-- Custom CSS -->
-  <link rel="shortcut Icon" type="image/png" href="images/logo.png">
-
-	<!-- Font Awesome Icons -->
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/navbar.css">
   <link rel="stylesheet" href="styles/investor.css">
+  <link rel="stylesheet" href="styles/styles.css">
 </head>
+
 <body>
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,13 +34,18 @@
         <img src="images/logo.png" alt="SheaNet Logo" width="100">
       </a>
       <!-- Search Bar in Navbar -->
-      <form class="d-flex ms-auto me-3">
-        <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search">
-        <button class="btn btn-success" type="submit">Search</button>
-      </form>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="top-bar">
+        <div class="search-container">
+          <input type="text" class="search-bar" placeholder="Search for products...">
+          <button class="search-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -56,57 +67,123 @@
 
   <!-- Hero Section -->
   <section class="hero text-center py-5">
+
     <div class="container">
       <!-- Empowering Women Text -->
       <img src="images/Empowering-women.png" alt="Empowering Women" class="empowering-women-image mb-4">
 
-      <!-- Images -->
-      <div class="row mb-4 justify-content-center">
-        <div class="col-md-6 me-3"> <!-- Reduced width and added margin -->
-          <img src="images/Shea.jpeg" alt="Wide Image" class="wide-image img-fluid">
-        </div>
-        <div class="col-md-4">
-          <img src="images/woman.jpeg" alt="Thin Image" class="thin-image img-fluid">
-        </div>
-      </div>
+      <header class="header">
+        <div class="background-images" id="backgroundImages"></div>
+      </header>
+
+      <script>
+        // Simplified array of background image URLs with careful string handling
+        var backgroundImages = [
+          'images/women in shea 1.jpg',
+          'images/woman.jpeg',
+          'images/women in shea 1.jpg',
+          'images/women in shea 2.jpg',
+          'images/women in shea 3.jpg',
+
+          // add more images as needed
+        ];
+        // Get the background images container
+        var backgroundImagesContainer = document.getElementById('backgroundImages');
+
+        // Ensure backgroundImagesContainer exists before proceeding
+        if (backgroundImagesContainer) {
+          // Create background image elements
+          backgroundImages.forEach(function (imageUrl, index) {
+            // Create div element safely
+            var imageElement = document.createElement('div');
+
+            // Add classes safely
+            imageElement.classList.add('background-image');
+
+            // Set background image with proper escaping
+            imageElement.style.backgroundImage = 'url("' + imageUrl + '")';
+
+            // Set first image as active
+            if (index === 0) {
+              imageElement.classList.add('active');
+            }
+
+            // Append to container
+            backgroundImagesContainer.appendChild(imageElement);
+          });
+
+          // Get all background image elements
+          var imageElements = document.querySelectorAll('.background-image');
+
+          // Function to cycle through images
+          function cycleBackgroundImages() {
+            // Find the currently active image
+            var currentActiveIndex = Array.prototype.findIndex.call(imageElements, function (img) {
+              return img.classList.contains('active');
+            });
+
+            // Remove active class from current image
+            imageElements[currentActiveIndex].classList.remove('active');
+
+            // Calculate the next image index
+            var nextIndex = (currentActiveIndex + 1) % imageElements.length;
+
+            // Add active class to next image
+            imageElements[nextIndex].classList.add('active');
+          }
+
+          // Change image every 5 seconds
+          setInterval(cycleBackgroundImages, 5000);
+        }
+      </script>
 
       <!-- Heading -->
       <h1 class="mb-4">Shop to Empower Women</h1>
 
       <!-- Description -->
       <div class="description">
-        <p>At SheaNet, we believe in <b>empowering women</b> and creating economic opportunities that drive real change. Shea butter production in <b>Ghana</b> is more than just a trade—it is a lifeline for over 600,000 women, providing them with financial independence and a path to a better future. Through our innovative digital platform, we are connecting these hardworking women directly to buyers, ensuring fair prices, greater market access, and sustainable production practices. Without initiatives like SheaNet, thousands of women would continue to face exploitation, low wages, and limited opportunities, but together, we can transform the industry and uplift entire communities.</p>
+        <p>
+          At SheaNet, we believe in <b>empowering women</b> and creating economic opportunities that drive real
+          change.
+          Shea butter production in <b>Ghana</b> is more than just a trade, it is a lifeline for over 600,000 women,
+          providing them with financial independence and a path to a better future. Through our innovative digital
+          platform, we are connecting these hardworking women directly to buyers, ensuring fair prices, greater market
+          access, and sustainable production practices. Without initiatives like SheaNet, thousands of women would
+          continue to face exploitation, low wages, and limited opportunities, but together, we can transform the
+          industry and uplift entire communities.
+        </p>
         <div class="button-5">
           <div class="state-layer-6">
-          <p class="text-7"><span class="text-white">LEARN MORE</span></p>
+            <p class="text-7"><span class="text-white">LEARN MORE</span></p>
+          </div>
+        </div>
       </div>
     </div>
+    </div> <!-- Close .container -->
+    </div>
   </section>
-  <h2 class="mb-5">Retail Raw Shea Butter </h2>
-  <div class="retail">
-    <p>Pure and unrefined, our Raw Shea Butter is harvested straight from the shea nut, preserving its natural richness and nourishing benefits. Packed with vitamins and essential fatty acids, it provides deep hydration and protection for skin and hair.</p>
+
+  <!-- Retail Raw Shea Butter -->
+  <h2 class="mb-5 text-center">Retail Raw Shea Butter</h2>
+  <div class="retail text-center mb-4">
+    <p>
+      Pure and unrefined, our Raw Shea Butter is harvested straight from the shea nut, preserving its natural richness
+      and nourishing benefits. Packed with vitamins and essential fatty acids, it provides deep hydration and
+      protection for skin and hair.
+    </p>
   </div>
-  <div class="row">
+  <div class="row mb-5">
     <div class="col-sm-3 col-md-6 col-lg-4">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/node-11.png" class="product-image">
+          <img src="images/node-11.png" class="product-image" alt="Brut shea butter">
           <h5 class="card-title"><b>Brut shea butter</b></h5>
           <p class="card-text small">Description.</p>
           <p class="tags">150ml | $32</p>
-          <a href="https://api.whatsapp.com/send?phone=250784274782" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
-        </div>
-      </div>
-    </div>
-
-     <div class="col-sm-3 col-md-6 col-lg-4">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/retail-butter-3-1-12.png" class="product-image">
-          <h5 class="card-title"><b>Butter</b></h5>
-          <p class="card-text small">Description.</p>
-          <p class="tags">150ml | $26</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="https://api.whatsapp.com/send?phone=250784274782" target="_blank"
+            class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
@@ -114,196 +191,389 @@
     <div class="col-sm-3 col-md-6 col-lg-4">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/node-13.png" class="product-image">
+          <img src="images/retail-butter-3-1-12.png" class="product-image" alt="Butter">
+          <h5 class="card-title"><b>Butter</b></h5>
+          <p class="card-text small">Description.</p>
+          <p class="tags">150ml | $26</p>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <img src="images/node-13.png" class="product-image" alt="Shea Butter">
           <h5 class="card-title"><b>Shea Butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">Price $20</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-<h2 class="mb-5">Bulk Shea Butter</h2>
-  <div class="Bulk">
- <p>Ideal for businesses and bulk buyers, our Bulk Shea Butter ensures premium quality and consistency for cosmetics, skincare, and wellness brands. Sustainably sourced and ethically produced, it’s perfect for high-volume needs.</p>
   </div>
-  <div class="d-flex flex-wrap justify-content-center">
-  
+
+  <!-- Bulk Shea Butter -->
+  <h2 class="mb-5 text-center">Bulk Shea Butter</h2>
+  <div class="Bulk text-center mb-4">
+    <p>
+      Ideal for businesses and bulk buyers, our Bulk Shea Butter ensures premium quality and consistency for
+      cosmetics, skincare, and wellness brands. Sustainably sourced and ethically produced, it’s perfect for
+      high-volume needs.
+    </p>
+  </div>
+  <div class="d-flex flex-wrap justify-content-center mb-5">
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/bulk-butter-1-1-49.png" class="product-image">
+          <img src="images/bulk-butter-1-1-49.png" class="product-image" alt="Bulk Butter">
           <h5 class="card-title"><b>Bulk Butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/bulk-butter-2-1-50.png" class="product-image">
+          <img src="images/bulk-butter-2-1-50.png" class="product-image" alt="White bulk butter">
           <h5 class="card-title"><b>White bulk butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/bulk-butter-3-1-51.png" class="product-image">
-          <h5 class="card-title"><b> Gold bulk butter</b></h5>
+          <img src="images/bulk-butter-3-1-51.png" class="product-image" alt="Gold bulk butter">
+          <h5 class="card-title"><b>Gold bulk butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/bulk-butter-4-1-52.png" class="product-image">
+          <img src="images/bulk-butter-4-1-52.png" class="product-image" alt="Organic shea butter">
           <h5 class="card-title"><b>Organic shea butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
   </div>
-  
-  <h2 class="mb-5">Shea skincare and body products</h2>
-  <div class="Bulk">
-    <p>Expertly crafted and processed for an enhanced texture and application, our Premium Shea Butter is ideal for luxurious skincare and beauty products, providing intense moisture with a soft, velvety feel.</p>
+
+  <!-- Shea Skincare and Body Products -->
+  <h2 class="mb-5 text-center">Shea Skincare and Body Products</h2>
+  <div class="Bulk text-center mb-4">
+    <p>
+      Expertly crafted and processed for an enhanced texture and application, our Premium Shea Butter is ideal for
+      luxurious skincare and beauty products, providing intense moisture with a soft, velvety feel.
+    </p>
   </div>
-  
-  <div class="d-flex flex-wrap justify-content-center">
-    
+  <div class="d-flex flex-wrap justify-content-center mb-5">
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/shea-body-1-1-99.png" class="product-image">
+          <img src="images/shea-body-1-1-99.png" class="product-image" alt="Shea butter lotion">
           <h5 class="card-title"><b>Shea butter lotion</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/shea-body-2-1-100.png" class="product-image">
+          <img src="images/shea-body-2-1-100.png" class="product-image" alt="Organic shea butter">
           <h5 class="card-title"><b>Organic shea butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $45</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/shea-body-3-1-101.png" class="product-image">
+          <img src="images/shea-body-3-1-101.png" class="product-image" alt="Organic shea butter cream">
           <h5 class="card-title"><b>Organic shea butter cream</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $60</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart\" aria-hidden=\"true\"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/shea-body-4-1-102.png" class="product-image">
-          <h5 class="card-title"><b>shea butter cream</b></h5>
+          <img src="images/shea-body-4-1-102.png" class="product-image" alt="Shea butter cream">
+          <h5 class="card-title"><b>Shea butter cream</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $25</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart\" aria-hidden=\"true\"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
   </div>
-  
-  <h2 class="mb-5">Scented Shea Butter</h2>
-  <div class="Bulk">
-    <p>Experience Shea Butter infused with captivating scents, from floral and citrus to warm vanilla and exotic spices. These aromatic blends enhance the sensory experience, while delivering the same deeply nourishing benefits.</p>
+
+  <!-- Scented Shea Butter -->
+  <h2 class="mb-5 text-center">Scented Shea Butter</h2>
+  <div class="Bulk text-center mb-4">
+    <p>
+      Experience Shea Butter infused with captivating scents, from floral and citrus to warm vanilla and exotic
+      spices. These aromatic blends enhance the sensory experience, while delivering the same deeply nourishing
+      benefits.
+    </p>
   </div>
-  
-  <div class="d-flex flex-wrap justify-content-center">
-    
+  <div class="d-flex flex-wrap justify-content-center mb-5">
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/node-148.png" class="product-image">
+          <img src="images/node-148.png" class="product-image" alt="Shea butter lotion">
           <h5 class="card-title"><b>Shea butter lotion</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart\" aria-hidden=\"true\"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/node-149.png" class="product-image">
+          <img src="images/node-149.png" class="product-image" alt="Whipped body butter">
           <h5 class="card-title"><b>Whipped body butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart\" aria-hidden=\"true\"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  
+
     <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="card">
         <div class="card-body text-center">
-          <img src="images/node-150.png" class="product-image">
-          <h5 class="card-title"><b>Whipped body butter</b></h5>
+          <img src="images/node-150.png" class="product-image" alt="Whipped body butter">
+          <h5 class="card-title\"><b>Whipped body butter</b></h5>
           <p class="card-text small">Description</p>
           <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag</a>
+          <a href="#" class="btn btn-success button-text">
+            <i class="fa fa-shopping-cart\" aria-hidden=\"true\"></i> Add to bag
+          </a>
         </div>
       </div>
     </div>
-  <!-- Investor Section
-  <section id="investors" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Call for Investors</h2>
-      <div class="row">
-        <div class="col-md-6">
-          <img src="images/investor.jpg" alt="Investor Image" class="img-fluid rounded">
+  </div>
+
+  <section class="story-section">
+    <div class="story-container">
+      <!-- Our Commitment Column -->
+      <div class="story-column">
+        <div class="story-image">
+          <img src="images/shean nuts canva.png" alt="Shea nuts in a bowl">
         </div>
-        <div class="col-md-6">
-          <h3>Invest in SheaNet</h3>
-          <p>Join us in empowering women shea butter producers and promoting sustainable economic growth in Ghana.</p>
+        <h2 class="story-title">OUR COMMITMENT</h2>
+        <p class="story-description">
+          Experience Shea Butter infused with captivating scents, from floral and citrus to warm vanilla and exotic
+          spices. These aromatic blends enhance the sensory experience, while delivering the same deeply nourishing
+          benefits.
+        </p>
+        <a href="#" class="story-button">Learn More</a>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- The Story Behind Column -->
+      <div class="story-column">
+        <div class="story-image">
+          <img src="images/shean nuts canva (1).png" alt="Woman processing shea nuts traditionally">
+        </div>
+        <h2 class="story-title">THE STORY BEHIND</h2>
+        <p class="story-description">
+          Experience Shea Butter infused with captivating scents, from floral and citrus to warm vanilla and exotic
+          spices. These aromatic blends enhance the sensory experience, while delivering the same deeply nourishing
+          benefits.
+        </p>
+        <a href="#" class="story-button">Discover</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Services Section -->
+  <section class="services-section">
+    <div class="services-container">
+      <!-- Payment Info -->
+      <div class="service-column">
+        <h3>Safety & Security Payment</h3>
+        <p>
+          Our online payment system is operated by a service provider specializing in secure online payments.
+          For further information please refer to the "payment" section of our Terms and Conditions.
+        </p>
+        <div class="payment-icons">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="MasterCard">
+        </div>
+      </div>
+
+      <!-- Shipping Info -->
+      <div class="service-column">
+        <h3>Shipping & Delivery</h3>
+        <p>Choose from our delivery services to best suit your order:</p>
+        <p>Standard Delivery: 3-9 Business Days</p>
+        <p>Express Delivery: 1-5 Business Days</p>
+        <p>Express shipping not available on fragrances or aerosols</p>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="service-column">
+        <h3>how can we help?</h3>
+        <p>
+          We are at your service! Please contact us
+          <a href="#" class="link">here</a>.
+        </p>
+        <p>Monday - Friday 9AM - 5PM AEST. Excluding public holidays.</p>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== SUBSCRIBE ====================-->
+  <section class="subscribe section">
+    <div class="subscribe__bg">
+      <div class="subscribe__container container">
+        <h2 class="section__title subscribe__title">Subscribe Our <br> Newsletter</h2>
+        <p class="subscribe__description">Subscribe to our newsletter and get a
+          special 30% discount.
+        </p>
+
+        <form action="" class="subscribe__form">
+          <input type="text" placeholder="Enter email" class="subscribe__input">
+
+          <button class="button">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h3>About SheaNet</h3>
           <ul>
-            <li>Support local communities</li>
-            <li>Access to high-quality shea butter</li>
-            <li>Opportunities for growth and impact</li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Social & Values</a></li>
+            <li><a href="#">Ethical Sourcing</a></li>
+            <li><a href="#">Sustainability</a></li>
           </ul>
-          <a href="#contact" class="btn btn-primary">Contact Us</a>
+        </div>
+        <div class="footer-column">
+          <h3>Support & Services</h3>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Shipping & Delivery</a></li>
+            <li><a href="#">Returns & Exchanges</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Business & Partnerships</h3>
+          <ul>
+            <li><a href="#">Wholesale & Bulk Orders</a></li>
+            <li><a href="#">Affiliate Program</a></li>
+            <li><a href="#">Retail & Resellerships</a></li>
+            <li><a href="#">Guides & Private Label</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#">Blog & Articles</a></li>
+            <li><a href="#">Size Charts</a></li>
+            <li><a href="#">Shea Buyer Benefits</a></li>
+            <li><a href="#">Market Insights</a></li>
+            <li><a href="#">Supply Chain Transparency</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Legal & Policies</h3>
+          <ul>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Legal & Policies</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2025 SheaNet. All rights reserved.
+        </div>
+        <div class="social-icons">
+          <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
-  </section> -->
+  </footer>
 
-  <!-- Footer -->
-  <!-- <footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 SheaNet. All rights reserved.</p>
-  </footer> -->
+  <!-- Your Custom JS -->
+  <script src="main.js"></script>
 
-  <!-- Bootstrap JS -->
+  <!-- Bootstrap JS (placed just before closing body tag) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+
+</html>

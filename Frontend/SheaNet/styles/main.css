@@ -7,7 +7,7 @@ body {
   
   
   .hero {
-    background-color: #f8f9fa;
+    background-color: #fffffd;
     padding: 100px 20px;
     text-align: center;
   }
@@ -49,17 +49,9 @@ body {
     height: 245px;
   }
   
-  .wide-image {
-    width: 788px;
-    height: 444px;
-    object-fit: cover; 
-  }
   
-  .thin-image {
-    width: 443px;
-    height: 443px;
-    object-fit: cover; 
-  }
+  
+  
 /* Button Container */
 .button-5 {
   display: flex;
