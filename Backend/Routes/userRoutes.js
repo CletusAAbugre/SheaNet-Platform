@@ -1,4 +1,4 @@
-// This script defines routes for user registration and login
+// This script defines Routes for user registration and login
 
 const express = require("express");
 const {registerUser, loginUser} = require ("../controllers/userController");
