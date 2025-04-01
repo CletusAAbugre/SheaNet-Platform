@@ -1,4 +1,4 @@
-// auth.js - Combined implementation
+// auth.js 
 class AuthUI {
     constructor() {
       this.token = localStorage.getItem('sheaToken');
