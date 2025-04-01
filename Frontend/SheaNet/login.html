@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheaNet - Login</title>
+    <style>
+        :root {
+            --primary: #e6b980;
+            --primary-dark: #d19c57;
+            --secondary: #5d4c3c;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #faf6f1;
+            --card-bg: #ffffff;
+            --card-shadow: rgba(0, 0, 0, 0.08);
+            --success: #52b788;
+            --error: #e63946;
+        }
+
+        .dark-mode {
+            --primary: #d19c57;
+            --primary-dark: #b07d38;
+            --secondary: #7d6a59;
+            --text: #f1f1f1;
+            --text-light: #b0b0b0;
+            --background: #222222;
+            --card-bg: #333333;
+            --card-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .account-selection {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .account-type {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .account-type:hover {
+            transform: translateY(-5px);
+        }
+
+        .account-type.active {
+            border-color: var(--primary);
+        }
+
+        .account-type .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .account-type h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .account-type p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .login-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 24px var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--text);
+            background-color: var(--card-bg);
+            transition: border-color 0.3s ease;
+        }
+
+        .input-container input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(209, 156, 87, 0.3);
+        }
+
+        .social-login {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .google-icon {
+            margin-right: 10px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .register-link a {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px var(--card-shadow);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .sun,
+        .moon {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .moon {
+            display: none;
+        }
+
+        .dark-mode .sun {
+            display: none;
+        }
+
+        .dark-mode .moon {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .account-selection {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .account-type {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Background decoration */
+        .bg-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), transparent);
+            opacity: 0.1;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            left: -100px;
+            animation-duration: 25s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            right: -50px;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            right: 10%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* Animation for switching between buyer and seller */
+        .login-container {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 2FA toggle */
+        .two-fa-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-decoration">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <div class="theme-toggle" id="themeToggle">
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">SheaNet</div>
+            <p class="subtitle">Connect with artisans and discover premium shea products from around the world. Your
+                gateway to authentic handcrafted treasures.</p>
+        </div>
+
+        <div class="account-selection">
+            <div class="account-type active" id="buyerOption">
+
+                <h3>I'm a Buyer</h3>
+                <p>Shop handcrafted products from artisans worldwide</p>
+            </div>
+            <div class="account-type" id="sellerOption">
+
+                <h3>I'm a Seller</h3>
+                <p>List your artisan products and reach global customers</p>
+            </div>
+        </div>
+
+        <div class="login-container" id="loginForm">
+            <div class="login-header">
+                <h2 id="loginTitle">Buyer Login</h2>
+                <p id="loginSubtitle">Sign in to start shopping</p>
+            </div>
+            <form class="login-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <div class="input-container">
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-container">
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <span class="password-toggle" id="passwordToggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <div class="two-fa-toggle">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="twoFaToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Enable Two-Factor Authentication</span>
+                </div>
+                <button type="submit" class="login-btn">Sign In</button>
+                <div class="divider"><span>OR</span></div>
+                <div class="social-login">
+                    <button type="button" class="google-btn">
+                        <span class="google-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.203-2.701-6.735-2.701-5.553 0-10.053 4.5-10.053 10.053s4.5 10.053 10.053 10.053c8.155 0 10.053-7.611 10.053-13.032 0-0.843-0.068-1.448-0.206-2.086h-9.847z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.203-2.701-6.735-2.701-5.553 0-10.053 4.5-10.053 10.053s4.5 10.053 10.053 10.053c8.155 0 10.053-7.611 10.053-13.032 0-0.843-0.068-1.448-0.206-2.086h-9.847z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M3.5 14.038c0-0.98 0.176-1.919 0.498-2.788l-3.498-2.688c-0.678 1.682-1.052 3.525-1.052 5.465 0 1.92 0.362 3.752 1.026 5.427l3.489-2.688c-0.313-0.858-0.489-1.784-0.489-2.728z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M12 18.703c-2.786 0-5.17-1.636-6.292-4.004l-3.493 2.684c1.777 3.514 5.363 5.932 9.762 5.932 3.228 0 5.914-1.062 7.885-2.87l-3.268-2.534c-0.917 0.593-2.092 0.945-3.593 0.945z"
+                                    fill="#EA4335" />
+                                <path
+                                    d="M23.494 13.986c0-0.797-0.074-1.631-0.226-2.513h-11.269v4.759h6.47c-0.293 1.502-1.183 2.768-2.496 3.611l3.273 2.534c1.917-1.771 3.023-4.368 3.023-7.389z"
+                                    fill="#34A853" />
+                            </svg>
+                        </span>
+                        Sign in with Google
+                    </button>
+                </div>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="#">Create Account</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const passwordToggle = document.getElementById('passwordToggle');
+        const passwordInput = document.getElementById('password');
+
+        passwordToggle.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+
+        // Toggle dark/light mode
+        const themeToggle = document.getElementById('themeToggle');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('darkMode');
+        if (savedTheme === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Switch between buyer and seller
+        const buyerOption = document.getElementById('buyerOption');
+        const sellerOption = document.getElementById('sellerOption');
+        const loginTitle = document.getElementById('loginTitle');
+        const loginSubtitle = document.getElementById('loginSubtitle');
+        const loginForm = document.getElementById('loginForm');
+
+        buyerOption.addEventListener('click', () => {
+            buyerOption.classList.add('active');
+            sellerOption.classList.remove('active');
+
+            // Add fade out animation
+            loginForm.style.opacity = '0';
+            loginForm.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                loginTitle.textContent = 'Buyer Login';
+                loginSubtitle.textContent = 'Sign in to start shopping';
+
+                // Add fade in animation
+                loginForm.style.animation = 'none';
+                void loginForm.offsetWidth; // Trigger reflow
+                loginForm.style.animation = 'fadeIn 0.5s forwards';
+            }, 300);
+        });
+
+        sellerOption.addEventListener('click', () => {
+            sellerOption.classList.add('active');
+            buyerOption.classList.remove('active');
+
+            // Add fade out animation
+            loginForm.style.opacity = '0';
+            loginForm.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                loginTitle.textContent = 'Seller Login';
+                loginSubtitle.textContent = 'Sign in to manage your store';
+
+                // Add fade in animation
+                loginForm.style.animation = 'none';
+                void loginForm.offsetWidth; // Trigger reflow
+                loginForm.style.animation = 'fadeIn 0.5s forwards';
+            }, 300);
+        });
+
+        // Prevent form submission (for demo purposes)
+        document.querySelector('.login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Login functionality would be implemented here.');
+        });
+    </script>
+</body>
+
+</html>

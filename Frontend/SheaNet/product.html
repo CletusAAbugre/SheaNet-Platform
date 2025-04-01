@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/navbar.css">
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -21,7 +23,8 @@
       <div class="cart-icon ms-3">
         <a href="cart.html" class="btn btn-outline-success position-relative">
           <i class="fa fa-shopping-cart"></i>
-          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          <span
+            class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
         </a>
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -55,12 +58,12 @@
         <h1 id="product-name"></h1>
         <p class="price-tag" id="product-price"></p>
         <p id="product-desc"></p>
-        
+
         <div class="mb-3">
           <label for="quantity" class="form-label">Quantity:</label>
           <input type="number" id="quantity" class="form-control" value="1" min="1">
         </div>
-        
+
         <button id="add-to-cart" class="btn btn-success button-text">
           <i class="fa fa-shopping-cart"></i> Add to Cart
         </button>
@@ -75,4 +78,5 @@
   <script src="js/product.js"></script>
   <script src="js/cart.js"></script>
 </body>
+
 </html>
