@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard | SheaNet</title>
+  <link rel="shortcut Icon" type="image/png" href="images/logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #c0aa83;
+      --secondary-color: #a68c6c;
+      --dark-color: #333;
+      --light-color: #f8f9fa;
+    }
+    
+    body {
+      font-family: 'roboto', serif;
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      background-color: white;
+      min-height: 100vh;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+    }
+    
+    .sidebar .nav-link {
+      color: var(--dark-color);
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+    
+    .sidebar .nav-link.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .sidebar .nav-link:hover:not(.active) {
+      background-color: rgba(192, 170, 131, 0.1);
+    }
+    
+    .dashboard-header {
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-card {
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+    
+    .product-img {
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    
+    .table th {
+      border-top: none;
+    }
+    
+    .chart-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .order-badge {
+      font-size: 0.75rem;
+    }
+    
+    .ghana-flag {
+      width: 20px;
+      height: 15px;
+      margin-right: 5px;
+    }
+    
+    .dashboard-view {
+      display: none;
+    }
+    
+    .dashboard-view.active {
+      display: block;
+    }
+    
+    .marketplace-product {
+      transition: all 0.3s;
+    }
+    
+    .marketplace-product:hover {
+      transform: scale(1.03);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .modal-content {
+      border-radius: 10px;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(192, 170, 131, 0.25);
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        min-height: auto;
+        position: relative;
+      }
+    }
+    
+    .category-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .cart-item-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    
+    .payment-method {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .payment-method:hover {
+      border-color: var(--primary-color);
+    }
+    
+    .payment-method.active {
+      border-color: var(--primary-color);
+      background-color: rgba(192, 170, 131, 0.1);
+    }
+    
+    .payment-icon {
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+    
+    #cartCount {
+      font-size: 0.7rem;
+      top: -5px;
+      right: -5px;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1100;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 col-lg-2 sidebar p-0">
+        <div class="d-flex flex-column p-3">
+          <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+            <img src="images/logo.png" alt="SheaNet Logo" width="120" class="mx-auto d-block">
+          </a>
+          <hr>
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link active" data-view="dashboard">
+                <i class="fas fa-tachometer-alt me-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="products">
+                <i class="fas fa-box me-2"></i>
+                My Products
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <i class="fas fa-plus-circle me-2"></i>
+                Add Product
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="orders">
+                <i class="fas fa-shopping-cart me-2"></i>
+                Orders
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="analytics">
+                <i class="fas fa-chart-line me-2"></i>
+                Analytics
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="marketplace">
+                <i class="fas fa-store me-2"></i>
+                Marketplace
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link position-relative" data-view="cart">
+                <i class="fas fa-shopping-cart me-2"></i>
+                Cart
+                <span class="position-absolute translate-middle badge rounded-pill bg-danger" id="cartCount" style="display: none;">0</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-view="settings">
+                <i class="fas fa-cog me-2"></i>
+                Settings
+              </a>
+            </li>
+          </ul>
+          <hr>
+          <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown">
+              <img src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairFrizzle&accessoriesType=Blank&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=DarkBrown" 
+              alt="user avatar"
+              width="32"
+              height="32"
+              class="rounded-circle me-2">
+              <strong id="sellerName">Adwoa Mensah</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+              <li><a class="dropdown-item" href="#" data-view="settings">Profile</a></li>
+              <li><a class="dropdown-item" href="#" data-view="settings">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 py-4">
+        <div id="dashboardView" class="dashboard-view active">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2>Seller Dashboard</h2>
+                <p class="mb-0">Welcome back, <span id="welcomeName">Adwoa</span>! Here's your business activity.</p>
+              </div>
+              <div>
+                <img src="https://flagcdn.com/w20/gh.png" class="ghana-flag" alt="Ghana">
+                <span>Tamale, Northern Region</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+              <div class="card stat-card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="text-muted mb-2">Total Sales</h6>
+                      <h3 class="mb-0">₵14,250</h3>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 p-3 rounded">
+                      <i class="fas fa-dollar-sign text-primary"></i>
+                    </div>
+                  </div>
+                  <p class="text-success mb-0 mt-2"><small>+18.5% from last month</small></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card stat-card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="text-muted mb-2">Orders</h6>
+                      <h3 class="mb-0">36</h3>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 p-3 rounded">
+                      <i class="fas fa-shopping-bag text-primary"></i>
+                    </div>
+                  </div>
+                  <p class="text-success mb-0 mt-2"><small>+6 new this week</small></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card stat-card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="text-muted mb-2">Products</h6>
+                      <h3 class="mb-0">8</h3>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 p-3 rounded">
+                      <i class="fas fa-box-open text-primary"></i>
+                    </div>
+                  </div>
+                  <p class="text-success mb-0 mt-2"><small>3 bestsellers</small></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card stat-card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="text-muted mb-2">Customers</h6>
+                      <h3 class="mb-0">28</h3>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 p-3 rounded">
+                      <i class="fas fa-users text-primary"></i>
+                    </div>
+                  </div>
+                  <p class="text-success mb-0 mt-2"><small>5 repeat buyers</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-md-8 mb-3">
+              <div class="chart-container h-100">
+                <h5>Monthly Sales (GHS)</h5>
+                <p class="text-muted">Last 6 months performance</p>
+                <canvas id="salesChart" height="250"></canvas>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="chart-container h-100">
+                <h5>Buyer Locations</h5>
+                <p class="text-muted">Where your customers are from</p>
+                <canvas id="locationChart" height="250"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Recent Orders</h5>
+              <small>Updated in real-time when buyers purchase</small>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Product</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ordersTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="productsView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <h2>My Products</h2>
+            <p class="mb-0">Manage your shea butter products listed on the marketplace</p>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Product Inventory</h5>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    <i class="fas fa-plus me-2"></i>Add Product
+                  </button>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Price</th>
+                          <th>Stock</th>
+                          <th>Status</th>
+                          <th>Sales</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="productsTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="ordersView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <h2>Order Management</h2>
+            <p class="mb-0">View and process customer orders</p>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">All Orders</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Order ID</th>
+                          <th>Product</th>
+                          <th>Customer</th>
+                          <th>Date</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="allOrdersTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="analyticsView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <h2>Business Analytics</h2>
+            <p class="mb-0">Track your sales performance and customer insights</p>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-md-8">
+              <div class="chart-container h-100">
+                <h5>Sales Performance</h5>
+                <p class="text-muted">Monthly revenue and growth</p>
+                <canvas id="detailedSalesChart" height="300"></canvas>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="chart-container h-100">
+                <h5>Top Selling Products</h5>
+                <p class="text-muted">By revenue and quantity</p>
+                <canvas id="topProductsChart" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="chart-container h-100">
+                <h5>Customer Demographics</h5>
+                <p class="text-muted">Where your buyers are located</p>
+                <canvas id="customerDemographicsChart" height="250"></canvas>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="chart-container h-100">
+                <h5>Order Status</h5>
+                <p class="text-muted">Current order pipeline</p>
+                <canvas id="orderStatusChart" height="250"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="marketplaceView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2>SheaNet Marketplace</h2>
+                <p class="mb-0">Browse and purchase from other shea producers</p>
+              </div>
+              <div class="w-50">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search products..." id="marketplaceSearch">
+                  <button class="btn btn-primary" type="button" id="searchMarketplaceBtn">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-12 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Marketplace Categories</h5>
+                  <div class="d-flex flex-wrap gap-2" id="marketplaceCategories">
+                    <button class="btn btn-outline-primary active category-btn" data-category="all">All Products</button>
+                    <button class="btn btn-outline-primary category-btn" data-category="raw">Raw Shea Butter</button>
+                    <button class="btn btn-outline-primary category-btn" data-category="refined">Refined Shea Butter</button>
+                    <button class="btn btn-outline-primary category-btn" data-category="skincare">Shea Skincare</button>
+                    <button class="btn btn-outline-primary category-btn" data-category="scented">Scented Varieties</button>
+                    <button class="btn btn-outline-primary category-btn" data-category="bulk">Bulk Orders</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row" id="marketplaceProducts"></div>
+        </div>
+
+        <div id="cartView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2>Your Shopping Cart</h2>
+                <p class="mb-0">Review your items before checkout</p>
+              </div>
+              <div>
+                <button class="btn btn-outline-secondary me-2" onclick="continueShopping()">
+                  <i class="fas fa-arrow-left me-1"></i> Continue Shopping
+                </button>
+                <button class="btn btn-primary" id="checkoutBtn" disabled>
+                  Proceed to Checkout <i class="fas fa-arrow-right ms-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th>Total</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cartItemsTable">
+                        <!-- Cart items will be loaded here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal">₵0.00</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Shipping:</span>
+                    <span id="cartShipping">₵0.00</span>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between fw-bold">
+                    <span>Total:</span>
+                    <span id="cartTotal">₵0.00</span>
+                  </div>
+                  <button class="btn btn-primary w-100 mt-3" id="proceedCheckoutBtn" disabled>
+                    Proceed to Payment
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="checkoutView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2>Checkout</h2>
+                <p class="mb-0">Complete your purchase</p>
+              </div>
+              <div>
+                <button class="btn btn-outline-secondary" onclick="backToCart()">
+                  <i class="fas fa-arrow-left me-1"></i> Back to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h5 class="mb-0">Shipping Information</h5>
+                </div>
+                <div class="card-body">
+                  <form id="shippingForm">
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email Address</label>
+                      <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="phone" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="address" class="form-label">Street Address</label>
+                      <input type="text" class="form-control" id="address" required>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="region" class="form-label">Region</label>
+                        <select class="form-select" id="region" required>
+                          <option value="">Select Region</option>
+                          <option value="ashanti">Ashanti</option>
+                          <option value="greater-accra">Greater Accra</option>
+                          <option value="central">Central</option>
+                          <option value="eastern">Eastern</option>
+                          <option value="western">Western</option>
+                          <option value="northern">Northern</option>
+                          <option value="upper-east">Upper East</option>
+                          <option value="upper-west">Upper West</option>
+                          <option value="volta">Volta</option>
+                          <option value="oti">Oti</option>
+                          <option value="savannah">Savannah</option>
+                          <option value="bono-east">Bono East</option>
+                          <option value="ahafo">Ahafo</option>
+                          <option value="western-north">Western North</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="notes" class="form-label">Delivery Notes (Optional)</label>
+                      <textarea class="form-control" id="notes" rows="2"></textarea>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">Payment Method</h5>
+                </div>
+                <div class="card-body">
+                  <div class="payment-method mb-3 active" id="cardPayment" onclick="selectPayment('card')">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-credit-card payment-icon"></i>
+                      <div>
+                        <h6 class="mb-1">Credit/Debit Card</h6>
+                        <p class="small text-muted mb-0">Pay with Visa, Mastercard, or other cards</p>
+                      </div>
+                    </div>
+                    <div id="cardDetails" class="mt-3">
+                      <div class="mb-3">
+                        <label for="cardNumber" class="form-label">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label for="expiryDate" class="form-label">Expiry Date</label>
+                          <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+                        </div>
+                        <div class="col-md-6">
+                          <label for="cvv" class="form-label">CVV</label>
+                          <input type="text" class="form-control" id="cvv" placeholder="123">
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="cardName" class="form-label">Name on Card</label>
+                        <input type="text" class="form-control" id="cardName" placeholder="John Doe">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="payment-method" id="mobilePayment" onclick="selectPayment('mobile')">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-mobile-alt payment-icon"></i>
+                      <div>
+                        <h6 class="mb-1">Mobile Money</h6>
+                        <p class="small text-muted mb-0">Pay with MTN, Vodafone, or AirtelTigo</p>
+                      </div>
+                    </div>
+                    <div id="mobileDetails" class="mt-3" style="display: none;">
+                      <div class="mb-3">
+                        <label for="mobileNetwork" class="form-label">Mobile Network</label>
+                        <select class="form-select" id="mobileNetwork">
+                          <option value="">Select Network</option>
+                          <option value="mtn">MTN Mobile Money</option>
+                          <option value="vodafone">Vodafone Cash</option>
+                          <option value="airteltigo">AirtelTigo Money</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="mobileNumber" placeholder="0241234567">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                  <div id="checkoutItems">
+                    <!-- Order items will be loaded here -->
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span id="checkoutSubtotal">₵0.00</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Shipping:</span>
+                    <span id="checkoutShipping">₵0.00</span>
+                  </div>
+                  <div class="d-flex justify-content-between fw-bold">
+                    <span>Total:</span>
+                    <span id="checkoutTotal">₵0.00</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="card-body">
+                  <button class="btn btn-primary w-100" id="placeOrderBtn">
+                    <i class="fas fa-lock me-2"></i> Place Order
+                  </button>
+                  <p class="small text-muted mt-2">
+                    <i class="fas fa-lock"></i> Your payment is securely processed. We don't store your credit card details.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="settingsView" class="dashboard-view">
+          <div class="dashboard-header mb-4 p-3 rounded">
+            <h2>Account Settings</h2>
+            <p class="mb-0">Manage your profile and account preferences</p>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h5 class="mb-0">Profile Information</h5>
+                </div>
+                <div class="card-body">
+                  <form id="profileForm">
+                    <div class="mb-3">
+                      <label for="profileName" class="form-label">Full Name</label>
+                      <input type="text" class="form-control" id="profileName" value="Adwoa Mensah">
+                    </div>
+                    <div class="mb-3">
+                      <label for="profileEmail" class="form-label">Email Address</label>
+                      <input type="email" class="form-control" id="profileEmail" value="adwoa.mensah@example.com">
+                    </div>
+                    <div class="mb-3">
+                      <label for="profilePhone" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="profilePhone" value="+233 24 123 4567">
+                    </div>
+                    <div class="mb-3">
+                      <label for="profileLocation" class="form-label">Business Location</label>
+                      <input type="text" class="form-control" id="profileLocation" value="Tamale, Northern Region">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h5 class="mb-0">Change Password</h5>
+                </div>
+                <div class="card-body">
+                  <form id="passwordForm">
+                    <div class="mb-3">
+                      <label for="currentPassword" class="form-label">Current Password</label>
+                      <input type="password" class="form-control" id="currentPassword">
+                    </div>
+                    <div class="mb-3">
+                      <label for="newPassword" class="form-label">New Password</label>
+                      <input type="password" class="form-control" id="newPassword">
+                    </div>
+                    <div class="mb-3">
+                      <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                      <input type="password" class="form-control" id="confirmPassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </form>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">Business Information</h5>
+                </div>
+                <div class="card-body">
+                  <form id="businessForm">
+                    <div class="mb-3">
+                      <label for="businessName" class="form-label">Business Name</label>
+                      <input type="text" class="form-control" id="businessName" value="Adwoa's Shea Products">
+                    </div>
+                    <div class="mb-3">
+                      <label for="businessDesc" class="form-label">Business Description</label>
+                      <textarea class="form-control" id="businessDesc" rows="3">Specializing in organic, fair trade shea butter products from Northern Ghana</textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="businessLogo" class="form-label">Business Logo</label>
+                      <input class="form-control" type="file" id="businessLogo">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Business</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modals -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="productForm">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="productName" required>
+              </div>
+              <div class="col-md-6">
+                <label for="productCategory" class="form-label">Category</label>
+                <select class="form-select" id="productCategory" required>
+                  <option value="">Select category</option>
+                  <option value="raw">Raw Shea Butter</option>
+                  <option value="refined">Refined Shea Butter</option>
+                  <option value="skincare">Shea Skincare</option>
+                  <option value="scented">Scented Varieties</option>
+                  <option value="bulk">Bulk Orders</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="productPrice" class="form-label">Price (GHS)</label>
+                <input type="number" class="form-control" id="productPrice" step="0.01" required>
+              </div>
+              <div class="col-md-4">
+                <label for="productSize" class="form-label">Size/Weight</label>
+                <input type="text" class="form-control" id="productSize" required>
+              </div>
+              <div class="col-md-4">
+                <label for="productStock" class="form-label">Initial Stock</label>
+                <input type="number" class="form-control" id="productStock" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="productDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+            </div>
+            
+            <div class="mb-3">
+              <label for="productImage" class="form-label">Product Image</label>
+              <input class="form-control" type="file" id="productImage" accept="image/*" required>
+              <small class="text-muted">Upload a clear photo of your product (max 2MB)</small>
+            </div>
+            
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="organicCertified">
+                <label class="form-check-label" for="organicCertified">
+                  Organically Certified
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="fairTrade">
+                <label class="form-check-label" for="fairTrade">
+                  Fair Trade Certified
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveProductBtn">Add Product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProductForm">
+            <input type="hidden" id="editProductId">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="editProductName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="editProductName" required>
+              </div>
+              <div class="col-md-6">
+                <label for="editProductCategory" class="form-label">Category</label>
+                <select class="form-select" id="editProductCategory" required>
+                  <option value="">Select category</option>
+                  <option value="raw">Raw Shea Butter</option>
+                  <option value="refined">Refined Shea Butter</option>
+                  <option value="skincare">Shea Skincare</option>
+                  <option value="scented">Scented Varieties</option>
+                  <option value="bulk">Bulk Orders</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="editProductPrice" class="form-label">Price (GHS)</label>
+                <input type="number" class="form-control" id="editProductPrice" step="0.01" required>
+              </div>
+              <div class="col-md-4">
+                <label for="editProductSize" class="form-label">Size/Weight</label>
+                <input type="text" class="form-control" id="editProductSize" required>
+              </div>
+              <div class="col-md-4">
+                <label for="editProductStock" class="form-label">Stock</label>
+                <input type="number" class="form-control" id="editProductStock" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="editProductDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="editProductDescription" rows="3" required></textarea>
+            </div>
+            
+            <div class="mb-3">
+              <label for="editProductImage" class="form-label">Product Image</label>
+              <input class="form-control" type="file" id="editProductImage" accept="image/*">
+              <small class="text-muted">Upload a new photo to replace the current one</small>
+              <div class="mt-2">
+                <img id="currentProductImage" src="" alt="Current Product" style="max-height: 100px; display: none;">
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="editOrganicCertified">
+                <label class="form-check-label" for="editOrganicCertified">
+                  Organically Certified
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="editFairTrade">
+                <label class="form-check-label" for="editFairTrade">
+                  Fair Trade Certified
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="updateProductBtn">Update Product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productDetailsModalLabel">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img id="detailProductImage" src="" alt="Product" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+              <h3 id="detailProductName"></h3>
+              <p class="text-muted" id="detailProductSeller"></p>
+              <p id="detailProductDescription"></p>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0" id="detailProductPrice"></h4>
+                <span class="badge bg-primary" id="detailProductCategory"></span>
+              </div>
+              <div class="mb-3">
+                <span class="fw-bold">Size:</span> <span id="detailProductSize"></span>
+              </div>
+              <div class="mb-3">
+                <span class="fw-bold">Availability:</span> <span id="detailProductStock"></span>
+              </div>
+              <div class="mb-3">
+                <span class="fw-bold">Certifications:</span> 
+                <span id="detailProductCertifications"></span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary flex-grow-1" id="addToCartModalBtn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="btn btn-outline-secondary">
+                  <i class="fas fa-heart"></i> Wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Confirmation Modal -->
+  <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center p-5">
+          <div class="mb-4">
+            <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+          </div>
+          <h3 class="mb-3">Order Confirmed!</h3>
+          <p class="mb-4">Thank you for your purchase. Your order has been received and is being processed.</p>
+          <p class="text-muted mb-4">Order ID: <strong id="confirmedOrderId">SN-2025-12345</strong></p>
+          <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="viewOrder()">
+              View Order
+            </button>
+            <button class="btn btn-primary" data-bs-dismiss="modal" onclick="continueShopping()">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const exchangeRate = 12;
+    let sellerData = {
+      id: "seller_001",
+      name: "Adwoa Mensah",
+      email: "adwoa.mensah@example.com",
+      phone: "+233 24 123 4567",
+      location: "Tamale, Northern Region",
+      businessName: "Adwoa's Shea Products",
+      businessDesc: "Specializing in organic, fair trade shea butter products from Northern Ghana",
+      products: [
+        {
+          id: "prod_001",
+          name: "Organic Raw Shea Butter",
+          image: "images/node-11.png",
+          price: 32 * exchangeRate,
+          originalPrice: 32,
+          currency: "GHS",
+          size: "150ml",
+          stock: 15,
+          status: "In Stock",
+          category: "raw",
+          description: "Pure, unrefined shea butter directly from Northern Ghana",
+          organic: true,
+          fairTrade: true,
+          sales: 42
+        },
+        {
+          id: "prod_002",
+          name: "Refined Shea Butter",
+          image: "images/retail-butter-3-1-12.png",
+          price: 26 * exchangeRate,
+          originalPrice: 26,
+          currency: "GHS",
+          size: "150ml",
+          stock: 8,
+          status: "In Stock",
+          category: "refined",
+          description: "Processed shea butter with smoother texture",
+          organic: false,
+          fairTrade: true,
+          sales: 28
+        },
+        {
+          id: "prod_003",
+          name: "Shea Butter Lotion",
+          image: "images/shea-body-1-1-99.png",
+          price: 40 * exchangeRate,
+          originalPrice: 40,
+          currency: "GHS",
+          size: "100ml",
+          stock: 3,
+          status: "Low Stock",
+          category: "skincare",
+          description: "Moisturizing lotion with shea butter and natural oils",
+          organic: true,
+          fairTrade: false,
+          sales: 15
+        }
+      ],
+      orders: [
+        {
+          id: "SN-2023-056",
+          productId: "prod_001",
+          productName: "Organic Raw Shea Butter",
+          customer: "Kwame Asante",
+          date: "Today, 10:45 AM",
+          amount: 240,
+          status: "New",
+          country: "gh"
+        },
+        {
+          id: "SN-2023-055",
+          productId: "prod_003",
+          productName: "Shea Butter Lotion",
+          customer: "Ama Johnson (UK)",
+          date: "Yesterday, 2:30 PM",
+          amount: 255,
+          status: "Processing",
+          country: "gb"
+        },
+        {
+          id: "SN-2023-054",
+          productId: "prod_002",
+          productName: "Refined Shea Butter",
+          customer: "Nana Kwaku",
+          date: "May 20, 2023",
+          amount: 300,
+          status: "Shipped",
+          country: "gh"
+        },
+        {
+          id: "SN-2023-053",
+          productId: "prod_001",
+          productName: "Organic Raw Shea Butter",
+          customer: "Sarah Wilson (USA)",
+          date: "May 18, 2023",
+          amount: 480,
+          status: "Delivered",
+          country: "us"
+        }
+      ],
+      salesData: {
+        months: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        amounts: [4200, 5800, 6500, 7200, 8900, 14250]
+      },
+      customerLocations: {
+        countries: ['Ghana', 'UK', 'USA', 'Germany', 'Others'],
+        percentages: [55, 20, 15, 5, 5]
+      }
+    };
+
+    const marketplaceProducts = [
+      {
+        id: "mkt_001",
+        seller: "Amina's Shea Products",
+        name: "Brut shea butter",
+        image: "images/node-13.png",
+        price: 32 * exchangeRate,
+        originalPrice: 32,
+        currency: "GHS",
+        size: "150ml",
+        location: "Kumasi, Ghana",
+        category: "raw",
+        description: "Pure unrefined shea butter",
+        stock: 20,
+        organic: true,
+        fairTrade: false
+      },
+      {
+        id: "mkt_002",
+        seller: "Northern Gold Shea",
+        name: "Shea Butter",
+        image: "images/retail-butter-3-1-12.png",
+        price: 26 * exchangeRate,
+        originalPrice: 26,
+        currency: "GHS",
+        size: "150ml",
+        location: "Tamale, Ghana",
+        category: "refined",
+        description: "Premium quality shea butter",
+        stock: 15,
+        organic: false,
+        fairTrade: true
+      },
+      {
+        id: "mkt_003",
+        seller: "Ghana Shea Collective",
+        name: "Shea Butter",
+        image: "images/node-13.png",
+        price: 20 * exchangeRate,
+        originalPrice: 20,
+        currency: "GHS",
+        size: "150ml",
+        location: "Accra, Ghana",
+        category: "raw",
+        description: "Pure shea butter",
+        stock: 30,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_004",
+        seller: "Savanna Organics",
+        name: "Bulk Butter",
+        image: "images/bulk-butter-1-1-49.png",
+        price: 152 * exchangeRate,
+        originalPrice: 152,
+        currency: "GHS",
+        size: "20kg",
+        location: "Bolgatanga, Ghana",
+        category: "bulk",
+        description: "Premium bulk shea butter",
+        stock: 5,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_005",
+        seller: "Shea Sisters",
+        name: "White bulk butter",
+        image: "images/bulk-butter-2-1-50.png",
+        price: 152 * exchangeRate,
+        originalPrice: 152,
+        currency: "GHS",
+        size: "20kg",
+        location: "Wa, Ghana",
+        category: "bulk",
+        description: "Premium white shea butter",
+        stock: 8,
+        organic: false,
+        fairTrade: false
+      },
+      {
+        id: "mkt_006",
+        seller: "Golden Shea",
+        name: "Gold bulk butter",
+        image: "images/bulk-butter-3-1-51.png",
+        price: 152 * exchangeRate,
+        originalPrice: 152,
+        currency: "GHS",
+        size: "20kg",
+        location: "Sunyani, Ghana",
+        category: "bulk",
+        description: "Premium gold shea butter",
+        stock: 6,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_007",
+        seller: "Pure Shea",
+        name: "Organic shea butter",
+        image: "images/bulk-butter-4-1-52.png",
+        price: 152 * exchangeRate,
+        originalPrice: 152,
+        currency: "GHS",
+        size: "20kg",
+        location: "Tamale, Ghana",
+        category: "bulk",
+        description: "Certified organic shea butter",
+        stock: 10,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_008",
+        seller: "Shea Beauty",
+        name: "Shea butter lotion",
+        image: "images/shea-body-1-1-99.png",
+        price: 40 * exchangeRate,
+        originalPrice: 40,
+        currency: "GHS",
+        size: "100ml",
+        location: "Accra, Ghana",
+        category: "skincare",
+        description: "Nourishing shea lotion",
+        stock: 25,
+        organic: false,
+        fairTrade: false
+      },
+      {
+        id: "mkt_009",
+        seller: "Nature's Gift",
+        name: "Organic shea butter",
+        image: "images/shea-body-2-1-100.png",
+        price: 45 * exchangeRate,
+        originalPrice: 45,
+        currency: "GHS",
+        size: "100ml",
+        location: "Kumasi, Ghana",
+        category: "skincare",
+        description: "Certified organic shea butter",
+        stock: 18,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_010",
+        seller: "Luxury Shea",
+        name: "Organic shea butter cream",
+        image: "images/shea-body-3-1-101.png",
+        price: 60 * exchangeRate,
+        originalPrice: 60,
+        currency: "GHS",
+        size: "100ml",
+        location: "Tamale, Ghana",
+        category: "skincare",
+        description: "Luxury shea cream",
+        stock: 12,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_011",
+        seller: "Shea Delight",
+        name: "Shea butter cream",
+        image: "images/shea-body-4-1-102.png",
+        price: 25 * exchangeRate,
+        originalPrice: 25,
+        currency: "GHS",
+        size: "100ml",
+        location: "Kumasi, Ghana",
+        category: "skincare",
+        description: "Rich shea butter cream",
+        stock: 30,
+        organic: false,
+        fairTrade: false
+      },
+      {
+        id: "mkt_012",
+        seller: "Aroma Shea",
+        name: "Shea butter lotion",
+        image: "images/node-148.png",
+        price: 40 * exchangeRate,
+        originalPrice: 40,
+        currency: "GHS",
+        size: "100ml",
+        location: "Accra, Ghana",
+        category: "scented",
+        description: "Scented shea lotion",
+        stock: 22,
+        organic: false,
+        fairTrade: false
+      },
+      {
+        id: "mkt_013",
+        seller: "Whipped Beauty",
+        name: "Whipped body butter",
+        image: "images/node-149.png",
+        price: 40 * exchangeRate,
+        originalPrice: 40,
+        currency: "GHS",
+        size: "100ml",
+        location: "Tamale, Ghana",
+        category: "scented",
+        description: "Luxury whipped butter",
+        stock: 15,
+        organic: true,
+        fairTrade: true
+      },
+      {
+        id: "mkt_014",
+        seller: "Shea Essentials",
+        name: "Whipped body butter",
+        image: "images/node-150.png",
+        price: 40 * exchangeRate,
+        originalPrice: 40,
+        currency: "GHS",
+        size: "100ml",
+        location: "Kumasi, Ghana",
+        category: "scented",
+        description: "Luxury whipped butter",
+        stock: 18,
+        organic: false,
+        fairTrade: false
+      }
+    ];
+
+    // Cart functionality
+    let cart = {
+      items: [],
+      addItem: function(productId, quantity = 1) {
+        const product = marketplaceProducts.find(p => p.id === productId);
+        if (!product) return false;
+        
+        const existingItem = this.items.find(item => item.id === productId);
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          this.items.push({
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            quantity: quantity,
+            seller: product.seller
+          });
+        }
+        
+        this.saveCart();
+        updateCartUI();
+        return true;
+      },
+      removeItem: function(productId) {
+        this.items = this.items.filter(item => item.id !== productId);
+        this.saveCart();
+        updateCartUI();
+      },
+      updateQuantity: function(productId, quantity) {
+        const item = this.items.find(item => item.id === productId);
+        if (item) {
+          item.quantity = quantity;
+          this.saveCart();
+          updateCartUI();
+        }
+      },
+      clearCart: function() {
+        this.items = [];
+        this.saveCart();
+        updateCartUI();
+      },
+      getTotal: function() {
+        return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+      },
+      getItemCount: function() {
+        return this.items.reduce((count, item) => count + item.quantity, 0);
+      },
+      saveCart: function() {
+        localStorage.setItem('sheanet_cart', JSON.stringify(this.items));
+      },
+      loadCart: function() {
+        const savedCart = localStorage.getItem('sheanet_cart');
+        if (savedCart) {
+          this.items = JSON.parse(savedCart);
+        }
+        updateCartUI();
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('sellerName').textContent = sellerData.name;
+      document.getElementById('welcomeName').textContent = sellerData.name.split(' ')[0];
+      
+      setupViews();
+      loadDashboardData();
+      loadProductsData();
+      loadOrdersData();
+      loadAnalyticsData();
+      loadMarketplaceData();
+      setupProductForm();
+      setupEditProductForm();
+      setupProfileForms();
+      setupMarketplaceSearch();
+      setupMarketplaceCategories();
+      simulateRealtimeUpdates();
+      
+      // Initialize cart
+      cart.loadCart();
+      
+      // Setup cart and checkout buttons
+      document.getElementById('checkoutBtn').addEventListener('click', function() {
+        showCheckoutView();
+      });
+      
+      document.getElementById('proceedCheckoutBtn').addEventListener('click', function() {
+        showCheckoutView();
+      });
+      
+      document.getElementById('placeOrderBtn').addEventListener('click', function() {
+        placeOrder();
+      });
+      
+      // Setup shipping form
+      document.getElementById('shippingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        placeOrder();
+      });
+    });
+
+    function setupViews() {
+      const viewLinks = document.querySelectorAll('[data-view]');
+      
+      viewLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          viewLinks.forEach(vl => vl.classList.remove('active'));
+          this.classList.add('active');
+          
+          document.querySelectorAll('.dashboard-view').forEach(view => {
+            view.classList.remove('active');
+          });
+          
+          const viewId = this.getAttribute('data-view') + 'View';
+          document.getElementById(viewId).classList.add('active');
+        });
+      });
+    }
+
+    function loadDashboardData() {
+      const ordersTableBody = document.getElementById('ordersTableBody');
+      ordersTableBody.innerHTML = '';
+      
+      sellerData.orders.slice(0, 5).forEach(order => {
+        const statusClass = 
+          order.status === 'New' ? 'primary' :
+          order.status === 'Processing' ? 'warning' :
+          order.status === 'Shipped' ? 'info' : 'success';
+        
+        ordersTableBody.innerHTML += `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.productName}</td>
+            <td>
+              <img src="https://flagcdn.com/w20/${order.country}.png" class="ghana-flag" alt="Country">
+              ${order.customer}
+            </td>
+            <td>${order.date}</td>
+            <td>₵${order.amount}</td>
+            <td><span class="badge bg-${statusClass} order-badge">${order.status}</span></td>
+          </tr>
+        `;
+      });
+
+      const salesCtx = document.getElementById('salesChart').getContext('2d');
+      new Chart(salesCtx, {
+        type: 'line',
+        data: {
+          labels: sellerData.salesData.months,
+          datasets: [{
+            label: 'Sales (GHS)',
+            data: sellerData.salesData.amounts,
+            backgroundColor: 'rgba(192, 170, 131, 0.1)',
+            borderColor: '#c0aa83',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '₵' + value.toLocaleString();
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const locationCtx = document.getElementById('locationChart').getContext('2d');
+      new Chart(locationCtx, {
+        type: 'doughnut',
+        data: {
+          labels: sellerData.customerLocations.countries,
+          datasets: [{
+            data: sellerData.customerLocations.percentages,
+            backgroundColor: [
+              '#c0aa83',
+              '#a68c6c',
+              '#8a7259',
+              '#6e5a46',
+              '#5a4a3a'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+
+    function loadProductsData() {
+      const productsTableBody = document.getElementById('productsTableBody');
+      productsTableBody.innerHTML = '';
+      
+      sellerData.products.forEach(product => {
+        const statusClass = product.status === 'In Stock' ? 'success' : 'warning';
+        
+        productsTableBody.innerHTML += `
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="${product.image}" class="product-img me-3" alt="${product.name}" style="width: 60px; height: 60px;">
+                <div>
+                  <h6 class="mb-0">${product.name}</h6>
+                  <small class="text-muted">${product.description}</small>
+                </div>
+              </div>
+            </td>
+            <td>₵${product.price}</td>
+            <td>${product.stock}</td>
+            <td><span class="badge bg-${statusClass}">${product.status}</span></td>
+            <td>${product.sales}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 edit-product" data-id="${product.id}">Edit</button>
+              <button class="btn btn-sm btn-outline-danger delete-product" data-id="${product.id}">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.querySelectorAll('.edit-product').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-id');
+          editProduct(productId);
+        });
+      });
+
+      document.querySelectorAll('.delete-product').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-id');
+          deleteProduct(productId);
+        });
+      });
+    }
+
+    function editProduct(productId) {
+      const product = sellerData.products.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('editProductName').value = product.name;
+      document.getElementById('editProductCategory').value = product.category;
+      document.getElementById('editProductPrice').value = product.price;
+      document.getElementById('editProductSize').value = product.size;
+      document.getElementById('editProductStock').value = product.stock;
+      document.getElementById('editProductDescription').value = product.description;
+      document.getElementById('editOrganicCertified').checked = product.organic;
+      document.getElementById('editFairTrade').checked = product.fairTrade;
+
+      const currentImage = document.getElementById('currentProductImage');
+      currentImage.src = product.image;
+      currentImage.style.display = 'block';
+
+      const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+      editModal.show();
+    }
+
+    function deleteProduct(productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        sellerData.products = sellerData.products.filter(p => p.id !== productId);
+        loadProductsData();
+      }
+    }
+
+    function setupEditProductForm() {
+      document.getElementById('updateProductBtn').addEventListener('click', function() {
+        const productId = document.getElementById('editProductId').value;
+        const productIndex = sellerData.products.findIndex(p => p.id === productId);
+        
+        if (productIndex !== -1) {
+          const product = sellerData.products[productIndex];
+          
+          product.name = document.getElementById('editProductName').value;
+          product.category = document.getElementById('editProductCategory').value;
+          product.price = parseFloat(document.getElementById('editProductPrice').value);
+          product.size = document.getElementById('editProductSize').value;
+          product.stock = parseInt(document.getElementById('editProductStock').value);
+          product.description = document.getElementById('editProductDescription').value;
+          product.organic = document.getElementById('editOrganicCertified').checked;
+          product.fairTrade = document.getElementById('editFairTrade').checked;
+          
+          const imageInput = document.getElementById('editProductImage');
+          if (imageInput.files.length > 0) {
+            product.image = URL.createObjectURL(imageInput.files[0]);
+          }
+          
+          product.status = product.stock <= 0 ? 'Out of Stock' : 
+                         product.stock <= 3 ? 'Low Stock' : 'In Stock';
+          
+          loadProductsData();
+          
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editProductModal'));
+          modal.hide();
+        }
+      });
+    }
+
+    function loadOrdersData() {
+      const allOrdersTableBody = document.getElementById('allOrdersTableBody');
+      allOrdersTableBody.innerHTML = '';
+      
+      sellerData.orders.forEach(order => {
+        const statusClass = 
+          order.status === 'New' ? 'primary' :
+          order.status === 'Processing' ? 'warning' :
+          order.status === 'Shipped' ? 'info' : 'success';
+        
+        allOrdersTableBody.innerHTML += `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.productName}</td>
+            <td>
+              <img src="https://flagcdn.com/w20/${order.country}.png" class="ghana-flag" alt="Country">
+              ${order.customer}
+            </td>
+            <td>${order.date}</td>
+            <td>₵${order.amount}</td>
+            <td><span class="badge bg-${statusClass} order-badge">${order.status}</span></td>
+            <td>
+              ${order.status === 'New' ? 
+                '<button class="btn btn-sm btn-success me-1">Process</button>' : 
+                order.status === 'Processing' ? 
+                '<button class="btn btn-sm btn-info me-1">Ship</button>' : ''}
+              <button class="btn btn-sm btn-outline-secondary">Details</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function loadAnalyticsData() {
+      const detailedSalesCtx = document.getElementById('detailedSalesChart').getContext('2d');
+      new Chart(detailedSalesCtx, {
+        type: 'bar',
+        data: {
+          labels: sellerData.salesData.months,
+          datasets: [{
+            label: 'Revenue (GHS)',
+            data: sellerData.salesData.amounts,
+            backgroundColor: 'rgba(192, 170, 131, 0.7)',
+            borderColor: '#c0aa83',
+            borderWidth: 1
+          }, {
+            label: 'Growth %',
+            data: [0, 38, 12, 11, 24, 60],
+            type: 'line',
+            borderColor: '#5a4a3a',
+            backgroundColor: 'transparent',
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+      new Chart(topProductsCtx, {
+        type: 'doughnut',
+        data: {
+          labels: sellerData.products.map(p => p.name),
+          datasets: [{
+            data: sellerData.products.map(p => p.sales),
+            backgroundColor: [
+              '#c0aa83',
+              '#a68c6c',
+              '#8a7259'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+
+      const customerDemographicsCtx = document.getElementById('customerDemographicsChart').getContext('2d');
+      new Chart(customerDemographicsCtx, {
+        type: 'polarArea',
+        data: {
+          labels: sellerData.customerLocations.countries,
+          datasets: [{
+            data: sellerData.customerLocations.percentages,
+            backgroundColor: [
+              '#c0aa83',
+              '#a68c6c',
+              '#8a7259',
+              '#6e5a46',
+              '#5a4a3a'
+            ]
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+
+      const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+      new Chart(orderStatusCtx, {
+        type: 'pie',
+        data: {
+          labels: ['New', 'Processing', 'Shipped', 'Delivered'],
+          datasets: [{
+            data: [8, 5, 3, 20],
+            backgroundColor: [
+              '#c0aa83',
+              '#a68c6c',
+              '#8a7259',
+              '#6e5a46'
+            ]
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    }
+
+    function loadMarketplaceData(filterCategory = 'all', searchTerm = '') {
+      const marketplaceProductsContainer = document.getElementById('marketplaceProducts');
+      marketplaceProductsContainer.innerHTML = '';
+      
+      let filteredProducts = marketplaceProducts;
+      
+      if (filterCategory !== 'all') {
+        filteredProducts = filteredProducts.filter(product => product.category === filterCategory);
+      }
+      
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        filteredProducts = filteredProducts.filter(product => 
+          product.name.toLowerCase().includes(term) || 
+          product.description.toLowerCase().includes(term) ||
+          product.seller.toLowerCase().includes(term)
+        );
+      }
+      
+      filteredProducts.forEach(product => {
+        marketplaceProductsContainer.innerHTML += `
+          <div class="col-md-4 mb-4">
+            <div class="card marketplace-product h-100">
+              <img src="${product.image}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text text-muted">${product.seller} • ${product.location}</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div>
+                    <span class="fw-bold">${product.size}</span>
+                  </div>
+                  <h5 class="mb-0">₵${product.price}</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-primary btn-sm view-product" data-id="${product.id}">
+                    <i class="fas fa-eye"></i> View
+                  </button>
+                  <button class="btn btn-primary btn-sm add-to-cart" data-id="${product.id}">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.querySelectorAll('.view-product').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-id');
+          showProductDetails(productId);
+        });
+      });
+
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-id');
+          addToCart(productId);
+        });
+      });
+    }
+
+    function showProductDetails(productId) {
+      const product = marketplaceProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('detailProductName').textContent = product.name;
+      document.getElementById('detailProductSeller').textContent = product.seller;
+      document.getElementById('detailProductDescription').textContent = product.description;
+      document.getElementById('detailProductPrice').textContent = `₵${product.price}`;
+      document.getElementById('detailProductCategory').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+      document.getElementById('detailProductSize').textContent = product.size;
+      document.getElementById('detailProductStock').textContent = product.stock > 0 ? 'In Stock' : 'Out of Stock';
+      
+      let certifications = [];
+      if (product.organic) certifications.push('Organic');
+      if (product.fairTrade) certifications.push('Fair Trade');
+      document.getElementById('detailProductCertifications').textContent = certifications.join(', ') || 'None';
+      
+      document.getElementById('detailProductImage').src = product.image;
+      
+      // Update add to cart button in modal
+      const addToCartBtn = document.getElementById('addToCartModalBtn');
+      addToCartBtn.onclick = function() {
+        addToCart(productId);
+        const modal = bootstrap.Modal.getInstance(document.getElementById('productDetailsModal'));
+        modal.hide();
+      };
+      
+      const modal = new bootstrap.Modal(document.getElementById('productDetailsModal'));
+      modal.show();
+    }
+
+    function addToCart(productId) {
+      if (cart.addItem(productId)) {
+        // Show success toast
+        const toast = document.createElement('div');
+        toast.className = 'toast show align-items-center text-white bg-success border-0';
+        toast.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="fas fa-check-circle me-2"></i>
+              Item added to cart
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        `;
+        document.getElementById('toast-container').appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+    }
+
+    function updateCartUI() {
+      const cartItemsTable = document.getElementById('cartItemsTable');
+      const cartCount = document.getElementById('cartCount');
+      const cartSubtotal = document.getElementById('cartSubtotal');
+      const cartTotal = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const proceedCheckoutBtn = document.getElementById('proceedCheckoutBtn');
+      
+      // Update cart items table
+      cartItemsTable.innerHTML = '';
+      
+      if (cart.items.length === 0) {
+        cartItemsTable.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center py-4">
+              <i class="fas fa-shopping-cart fa-2x text-muted mb-3"></i>
+              <p>Your cart is empty</p>
+              <button class="btn btn-primary" onclick="continueShopping()">
+                Continue Shopping
+              </button>
+            </td>
+          </tr>
+        `;
+        checkoutBtn.disabled = true;
+        proceedCheckoutBtn.disabled = true;
+      } else {
+        cart.items.forEach(item => {
+          cartItemsTable.innerHTML += `
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="${item.image}" class="cart-item-img me-3" alt="${item.name}">
+                  <div>
+                    <h6 class="mb-0">${item.name}</h6>
+                    <small class="text-muted">Seller: ${item.seller}</small>
+                  </div>
+                </div>
+              </td>
+              <td>₵${item.price.toFixed(2)}</td>
+              <td>
+                <input type="number" class="form-control" value="${item.quantity}" min="1" 
+                  onchange="cart.updateQuantity('${item.id}', this.value)" style="width: 70px;">
+              </td>
+              <td>₵${(item.price * item.quantity).toFixed(2)}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger" onclick="cart.removeItem('${item.id}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+        
+        checkoutBtn.disabled = false;
+        proceedCheckoutBtn.disabled = false;
+      }
+      
+      // Update cart summary
+      const subtotal = cart.getTotal();
+      const shipping = subtotal > 0 ? 50 : 0; // Flat rate shipping
+      const total = subtotal + shipping;
+      
+      cartSubtotal.textContent = `₵${subtotal.toFixed(2)}`;
+      document.getElementById('cartShipping').textContent = `₵${shipping.toFixed(2)}`;
+      cartTotal.textContent = `₵${total.toFixed(2)}`;
+      
+      // Update cart count badge
+      const itemCount = cart.getItemCount();
+      if (itemCount > 0) {
+        cartCount.textContent = itemCount;
+        cartCount.style.display = 'block';
+      } else {
+        cartCount.style.display = 'none';
+      }
+      
+      // Update checkout summary if on checkout page
+      if (document.getElementById('checkoutView').classList.contains('active')) {
+        updateCheckoutSummary();
+      }
+    }
+
+    function updateCheckoutSummary() {
+      const checkoutItems = document.getElementById('checkoutItems');
+      const subtotal = cart.getTotal();
+      const shipping = subtotal > 0 ? 50 : 0;
+      const total = subtotal + shipping;
+      
+      checkoutItems.innerHTML = '';
+      cart.items.forEach(item => {
+        checkoutItems.innerHTML += `
+          <div class="d-flex justify-content-between mb-2">
+            <div>
+              <span>${item.name}</span>
+              <small class="text-muted d-block">${item.quantity} × ₵${item.price.toFixed(2)}</small>
+            </div>
+            <span>₵${(item.price * item.quantity).toFixed(2)}</span>
+          </div>
+        `;
+      });
+      
+      document.getElementById('checkoutSubtotal').textContent = `₵${subtotal.toFixed(2)}`;
+      document.getElementById('checkoutShipping').textContent = `₵${shipping.toFixed(2)}`;
+      document.getElementById('checkoutTotal').textContent = `₵${total.toFixed(2)}`;
+    }
+
+    function showCartView() {
+      document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.classList.remove('active');
+      });
+      document.getElementById('cartView').classList.add('active');
+      updateCartUI();
+    }
+
+    function showCheckoutView() {
+      document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.classList.remove('active');
+      });
+      document.getElementById('checkoutView').classList.add('active');
+      updateCheckoutSummary();
+    }
+
+    function continueShopping() {
+      document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.classList.remove('active');
+      });
+      document.getElementById('marketplaceView').classList.add('active');
+    }
+
+    function backToCart() {
+      showCartView();
+    }
+
+    function selectPayment(method) {
+      document.querySelectorAll('.payment-method').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      if (method === 'card') {
+        document.getElementById('cardPayment').classList.add('active');
+        document.getElementById('cardDetails').style.display = 'block';
+        document.getElementById('mobileDetails').style.display = 'none';
+      } else {
+        document.getElementById('mobilePayment').classList.add('active');
+        document.getElementById('mobileDetails').style.display = 'block';
+        document.getElementById('cardDetails').style.display = 'none';
+      }
+    }
+
+    function placeOrder() {
+      const paymentMethod = document.querySelector('.payment-method.active').id;
+      const isValid = validateCheckoutForm();
+      
+      if (!isValid) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // In a real app,process payment here
+      // For this demo,its only  a confirmation
+      
+      // Generate order ID
+      const orderId = 'SN-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById('confirmedOrderId').textContent = orderId;
+      
+      // Create order
+      const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleString(),
+        items: [...cart.items],
+        total: cart.getTotal() + 50, // Including shipping
+        status: 'Processing',
+        shipping: {
+          name: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          region: document.getElementById('region').value,
+          notes: document.getElementById('notes').value
+        },
+        payment: {
+          method: paymentMethod === 'cardPayment' ? 'Card' : 'Mobile Money',
+          details: paymentMethod === 'cardPayment' ? {
+            last4: document.getElementById('cardNumber').value.slice(-4)
+          } : {
+            network: document.getElementById('mobileNetwork').value,
+            number: document.getElementById('mobileNumber').value
+          }
+        }
+      };
+      
+      // Add to seller's orders (this would be via API)
+      sellerData.orders.unshift(newOrder);
+      
+      // Clear cart
+      cart.clearCart();
+      
+      // Show confirmation modal
+      const modal = new bootstrap.Modal(document.getElementById('orderConfirmationModal'));
+      modal.show();
+    }
+
+    function validateCheckoutForm() {
+      const requiredFields = [
+        'firstName', 'lastName', 'email', 'phone', 'address', 'city', 'region'
+      ];
+      
+      for (const fieldId of requiredFields) {
+        if (!document.getElementById(fieldId).value.trim()) {
+          return false;
+        }
+      }
+      
+      const paymentMethod = document.querySelector('.payment-method.active').id;
+      if (paymentMethod === 'cardPayment') {
+        if (!document.getElementById('cardNumber').value.trim() ||
+            !document.getElementById('expiryDate').value.trim() ||
+            !document.getElementById('cvv').value.trim() ||
+            !document.getElementById('cardName').value.trim()) {
+          return false;
+        }
+      } else {
+        if (!document.getElementById('mobileNetwork').value ||
+            !document.getElementById('mobileNumber').value.trim()) {
+          return false;
+        }
+      }
+      
+      return true;
+    }
+
+    function viewOrder() {
+      // In a real app, this would navigate to the order details
+      document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.classList.remove('active');
+      });
+      document.getElementById('ordersView').classList.add('active');
+      loadOrdersData();
+    }
+
+    function setupMarketplaceSearch() {
+      const searchBtn = document.getElementById('searchMarketplaceBtn');
+      const searchInput = document.getElementById('marketplaceSearch');
+      
+      searchBtn.addEventListener('click', function() {
+        const searchTerm = searchInput.value.trim();
+        loadMarketplaceData(getActiveCategory(), searchTerm);
+      });
+      
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const searchTerm = searchInput.value.trim();
+          loadMarketplaceData(getActiveCategory(), searchTerm);
+        }
+      });
+    }
+
+    function setupMarketplaceCategories() {
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const category = this.getAttribute('data-category');
+          const searchTerm = document.getElementById('marketplaceSearch').value.trim();
+          loadMarketplaceData(category, searchTerm);
+        });
+      });
+    }
+
+    function getActiveCategory() {
+      const activeBtn = document.querySelector('.category-btn.active');
+      return activeBtn ? activeBtn.getAttribute('data-category') : 'all';
+    }
+
+    function setupProductForm() {
+      const saveProductBtn = document.getElementById('saveProductBtn');
+      
+      saveProductBtn.addEventListener('click', function() {
+        const productImage = document.getElementById('productImage').files[0];
+        const imageUrl = productImage ? URL.createObjectURL(productImage) : 'images/placeholder-product.png';
+        
+        const newProduct = {
+          id: 'prod_' + Math.floor(Math.random() * 1000),
+          name: document.getElementById('productName').value,
+          image: imageUrl,
+          price: parseFloat(document.getElementById('productPrice').value),
+          originalPrice: parseFloat(document.getElementById('productPrice').value) / exchangeRate,
+          currency: "GHS",
+          size: document.getElementById('productSize').value,
+          stock: parseInt(document.getElementById('productStock').value),
+          status: "In Stock",
+          category: document.getElementById('productCategory').value,
+          description: document.getElementById('productDescription').value,
+          organic: document.getElementById('organicCertified').checked,
+          fairTrade: document.getElementById('fairTrade').checked,
+          sales: 0
+        };
+        
+        sellerData.products.push(newProduct);
+        
+        loadProductsData();
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
+        modal.hide();
+        
+        document.getElementById('productForm').reset();
+        
+        alert('Product added successfully! It is now available in the marketplace.');
+      });
+    }
+
+    function setupProfileForms() {
+      document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        sellerData.name = document.getElementById('profileName').value;
+        sellerData.email = document.getElementById('profileEmail').value;
+        sellerData.phone = document.getElementById('profilePhone').value;
+        sellerData.location = document.getElementById('profileLocation').value;
+        
+        document.getElementById('sellerName').textContent = sellerData.name;
+        document.getElementById('welcomeName').textContent = sellerData.name.split(' ')[0];
+        
+        alert('Profile updated successfully!');
+      });
+      
+      document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Password changed successfully!');
+        this.reset();
+      });
+      
+      document.getElementById('businessForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        sellerData.businessName = document.getElementById('businessName').value;
+        sellerData.businessDesc = document.getElementById('businessDesc').value;
+        
+        alert('Business information updated successfully!');
+      });
+    }
+
+    function simulateRealtimeUpdates() {
+      setInterval(() => {
+        if (Math.random() > 0.7) {
+          const products = sellerData.products;
+          const randomProduct = products[Math.floor(Math.random() * products.length)];
+          
+          const countries = ['gh', 'gh', 'gh', 'gb', 'us', 'de'];
+          const randomCountry = countries[Math.floor(Math.random() * countries.length)];
+          
+          const customers = {
+            gh: ['Kwame', 'Ama', 'Yaw', 'Esi', 'Kofi', 'Adwoa'],
+            gb: ['John', 'Sarah', 'David', 'Emily'],
+            us: ['Michael', 'Jessica', 'Robert', 'Jennifer'],
+            de: ['Hans', 'Greta', 'Klaus', 'Anna']
+          };
+          
+          const customerName = customers[randomCountry][Math.floor(Math.random() * customers[randomCountry].length)];
+          const customer = randomCountry === 'gh' ? customerName : `${customerName} (${randomCountry.toUpperCase()})`;
+          
+          const newOrder = {
+            id: `SN-2023-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+            productId: randomProduct.id,
+            productName: randomProduct.name,
+            customer: customer,
+            date: 'Just now',
+            amount: randomProduct.price * (Math.floor(Math.random() * 3) + 1),
+            status: 'New',
+            country: randomCountry
+          };
+          
+          sellerData.orders.unshift(newOrder);
+          
+          randomProduct.stock -= 1;
+          if (randomProduct.stock <= 0) {
+            randomProduct.status = 'Out of Stock';
+          } else if (randomProduct.stock <= 3) {
+            randomProduct.status = 'Low Stock';
+          }
+          
+          randomProduct.sales += 1;
+          
+          sellerData.salesData.amounts[sellerData.salesData.amounts.length - 1] += newOrder.amount;
+          
+          loadDashboardData();
+          loadProductsData();
+          loadOrdersData();
+          loadAnalyticsData();
+        }
+      }, 15000);
+    }
+  </script>
+</body>
+</html>
