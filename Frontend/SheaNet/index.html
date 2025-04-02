@@ -36,51 +36,39 @@
 
 
 <body>
-  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="index.html">
         <img src="images/logo.png" alt="SheaNet Logo" width="100">
       </a>
-      <!-- Search Bar in Navbar -->
-      <div class="top-bar">
-        <div class="search-container">
-          <input type="text" class="search-bar" placeholder="Search for products...">
-          <button class="search-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
-        </div>
-      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="index.html">Home</a>
+            <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="products.html">Products</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="investors.html">Investors</a>
+            <a class="nav-link active" href="investors.html">Investors</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="contact.html">Contact</a>
           </li>
-          <ul class="navbar-nav ms-auto"> 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
-                <i class="fas fa-user-circle fa-lg"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" id="authMenu">
-              </ul>
-            </li>
-          </ul>
+        </ul>
+        <ul class="navbar-nav ms-auto"> 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user-circle fa-lg"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" id="authMenu">
+            </ul>
+          </li>
+        </ul>
       </div>
-      </ul>
-    </div>
     </div>
   </nav>
 
@@ -199,261 +187,6 @@
     </div> <!-- Close .container -->
     </div>
   </section>
-
-
-  <!-- Retail Raw Shea Butter -->
-  <h2 class="mb-5 text-center">Retail Raw Shea Butter</h2>
-  <div class="retail text-center mb-4">
-    <p>
-      Pure and unrefined, our Raw Shea Butter is harvested straight from the shea nut, preserving its natural richness
-      and nourishing benefits. Packed with vitamins and essential fatty acids, it provides deep hydration and
-      protection for skin and hair.
-    </p>
-  </div>
-  <div class="row mb-5">
-    <div class="col-sm-3 col-md-6 col-lg-4">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/node-11.png" class="product-image" alt="Brut shea butter">
-          <h5 class="card-title"><b>Brut shea butter</b></h5>
-          <p class="card-text small">Description.</p>
-          <p class="tags">150ml | $32</p>
-          <a href="https://api.whatsapp.com/send?phone=250784274782" target="_blank"
-            class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-sm-3 col-md-6 col-lg-4">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/retail-butter-3-1-12.png" class="product-image" alt="Butter">
-          <h5 class="card-title"><b>Butter</b></h5>
-          <p class="card-text small">Description.</p>
-          <p class="tags">150ml | $26</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-sm-3 col-md-6 col-lg-4">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/node-13.png" class="product-image" alt="Shea Butter">
-          <h5 class="card-title"><b>Shea Butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">Price $20</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Bulk Shea Butter -->
-  <h2 class="mb-5 text-center">Bulk Shea Butter</h2>
-  <div class="Bulk text-center mb-4">
-    <p>
-      Ideal for businesses and bulk buyers, our Bulk Shea Butter ensures premium quality and consistency for
-      cosmetics, skincare, and wellness brands. Sustainably sourced and ethically produced, it’s perfect for
-      high-volume needs.
-    </p>
-  </div>
-  <div class="d-flex flex-wrap justify-content-center mb-5">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/bulk-butter-1-1-49.png" class="product-image" alt="Bulk Butter">
-          <h5 class="card-title"><b>Bulk Butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/bulk-butter-2-1-50.png" class="product-image" alt="White bulk butter">
-          <h5 class="card-title"><b>White bulk butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/bulk-butter-3-1-51.png" class="product-image" alt="Gold bulk butter">
-          <h5 class="card-title"><b>Gold bulk butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/bulk-butter-4-1-52.png" class="product-image" alt="Organic shea butter">
-          <h5 class="card-title"><b>Organic shea butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">20kg | $152</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Shea Skincare and Body Products -->
-  <h2 class="mb-5 text-center">Shea Skincare and Body Products</h2>
-  <div class="Bulk text-center mb-4">
-    <p>
-      Expertly crafted and processed for an enhanced texture and application, our Premium Shea Butter is ideal for
-      luxurious skincare and beauty products, providing intense moisture with a soft, velvety feel.
-    </p>
-  </div>
-  <div class="d-flex flex-wrap justify-content-center mb-5">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/shea-body-1-1-99.png" class="product-image" alt="Shea butter lotion">
-          <h5 class="card-title"><b>Shea butter lotion</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/shea-body-2-1-100.png" class="product-image" alt="Organic shea butter">
-          <h5 class="card-title"><b>Organic shea butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $45</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/shea-body-3-1-101.png" class="product-image" alt="Organic shea butter cream">
-          <h5 class="card-title"><b>Organic shea butter cream</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $60</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/shea-body-4-1-102.png" class="product-image" alt="Shea butter cream">
-          <h5 class="card-title"><b>Shea butter cream</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $25</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Scented Shea Butter -->
-  <h2 class="mb-5 text-center">Scented Shea Butter</h2>
-  <div class="Bulk text-center mb-4">
-    <p>
-      Experience Shea Butter infused with captivating scents, from floral and citrus to warm vanilla and exotic
-      spices. These aromatic blends enhance the sensory experience, while delivering the same deeply nourishing
-      benefits.
-    </p>
-  </div>
-  <div class="d-flex flex-wrap justify-content-center mb-5">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/node-148.png" class="product-image" alt="Shea butter lotion">
-          <h5 class="card-title"><b>Shea butter lotion</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/node-149.png" class="product-image" alt="Whipped body butter">
-          <h5 class="card-title"><b>Whipped body butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img src="images/node-150.png" class="product-image" alt="Whipped body butter">
-          <h5 class="card-title\"><b>Whipped body butter</b></h5>
-          <p class="card-text small">Description</p>
-          <p class="tags">100ml | $40</p>
-          <a href="#" class="btn btn-success button-text">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to bag
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <section class="story-section">
     <div class="story-container">
