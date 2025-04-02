@@ -4,11 +4,35 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.12.1"
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.1",
+    "mongosh": "^2.4.2",
+    "stripe": "^17.7.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "supertest": "^7.0.0"
-  }
+    "mongodb-memory-server": "^10.1.4",
+    "supertest": "^7.1.0"
+  },
+  "name": "sheanet-platform",
+  "version": "1.0.0",
+  "description": "<!-- Impact Section -->\r   <section class=\"impact my-5\">\r     <div class=\"container\">\r       <h2 class=\"mb-4 text-center\">Our Impact</h2>\r       <div class=\"impact-grid\">\r         <div class=\"impact-stat\">\r           <div class=\"stat-number\">600K+</div>\r           <p>Women Supported</p>\r         </div>\r         <div class=\"impact-stat\">\r           <div class=\"stat-number\">100%</div>\r           <p>Fair Trade Certified</p>\r         </div>\r         <div class=\"impact-stat\">\r           <div class=\"stat-number\">85%</div>\r           <p>Income Increase</p>\r         </div>\r       </div>\r     </div>\r   </section>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CletusAAbugre/SheaNet-Platform.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CletusAAbugre/SheaNet-Platform/issues"
+  },
+  "homepage": "https://github.com/CletusAAbugre/SheaNet-Platform#readme"
 }
