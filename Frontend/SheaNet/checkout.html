@@ -136,6 +136,34 @@
   <script src="js/checkout.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const authMenu = document.getElementById('authMenu');
+  
+      if (currentUser) {
+        // User is logged in - show signed in options
+        authMenu.innerHTML = `
+          <li><span class="dropdown-item-text">Signed in as <strong>${currentUser.name}</strong></span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fa fa-sign-out me-2"></i> Logout</a></li>
+        `;
+  
+        // logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+          e.preventDefault();
+          localStorage.removeItem('currentUser');
+          window.location.href = 'login.html';
+        });
+      } else {
+        // User is not logged in - show login option
+        authMenu.innerHTML = `
+          <li><a class="dropdown-item" href="login.html"><i class="fa fa-sign-in me-2"></i> Login</a></li>
+        `;
+      }
+    });
+  </script>
 </body>
 
 </html>
